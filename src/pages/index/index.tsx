@@ -13,12 +13,12 @@ import { imageData } from "@/recoil/selectors/imageSelector";
 
 function index() {
     const imgSelector = useRecoilValue(imageData);
-    const [imgData, setImgData] = useState<CardDTO[]>([]);
+    const [imgData, setImgData] = useState<CardDTO>();
     const [open, setOpen] = useState<boolean>(false); //이미지 상세 다이얼로그 관리
 
     const CARD_LIST = imgSelector.data.results.map((card: CardDTO) => {
         return (
-            <Card data={card} key={card.id} handleDialog={setOpen} />
+            <Card data={card} key={card.id} handleDialog={setOpen} handleSetData={setImgData}/>
         )
     });
 
@@ -47,7 +47,7 @@ function index() {
         </div>
         {/* {공통 푸터 UI 부분} */}
         <CommonFooter />
-        {open && <DetailDialog />}
+        {open && <DetailDialog data={imgData} handleDialog={setOpen}/>}
     </div>
     )
 }
