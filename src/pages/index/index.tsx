@@ -4,12 +4,15 @@ import CommonHeader from "@/components/common/header/CommonHeader";
 import CommonSearchBar from "@/components/common/searchBar/CommonSearchBar";
 import CommonNav from "@/components/common/navigation/CommonNav";
 import CommonFooter from "@/components/common/footer/CommonFooter";
-import Card from "./components/Card"
+import Card from "./components/Card";
+import { CardDTO } from "./types/card";
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function index() {
+    const [imgUrls, setImgUrls] = useState([]);
+
     const getData = async () => {
         //오픈 API 호출
         const API_URL = "https://api.unsplash.com/search/photos";
@@ -22,10 +25,21 @@ function index() {
         try{
             const res = await axios.get( `${API_URL}?query=${searchValue}&client_id=${API_KEY}&page=${pageValue}&per_page=${PER_PAGE}`)
             console.log(res);
+
+            if (res.status === 200) {
+                setImgUrls(res.data.results);
+            }
+
         } catch (error) {
             console.log()
         }
     }
+
+    const cardList = imgUrls.map((card: CardDTO) => {
+        return (
+            <Card data={card} key={card.id} />
+        )
+    });
 
     useEffect(() => {
         getData()
@@ -51,10 +65,7 @@ function index() {
                 </div>
             </div>
             <div className={styles.page__contents__imageBox}>
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {cardList}
             </div>
         </div>
         {/* {공통 푸터 UI 부분} */}
