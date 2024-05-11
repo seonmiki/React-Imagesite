@@ -17,10 +17,12 @@
 
         gap: 8px;
 
+        cursor: pointer;
+
         &__logo {
             height: 75%;
         }
-        %__title {
+        &__title {
             font-size: 24px;
             font-weight: 600;
         }
