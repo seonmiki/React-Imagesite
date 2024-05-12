@@ -2,11 +2,19 @@ import CommonHeader from '@/components/common/header/CommonHeader'
 import Card from './components/Card'
 import styles from './styles/index.module.scss'
 import { useState, useEffect } from 'react'
+import { CardDTO } from '../index/types/card';
 
 function index() {
     const [data, setData] = useState([]);
     const getData = () => {
+        const getLocalStorage = JSON.parse(localStorage.getItem("bookmark"));
 
+        if (getLocalStorage || getLocalStorage !== null) {
+            setData(getLocalStorage);
+        }
+        else {
+            setData([]);
+        }
     }
     useEffect(() => {
         getData()
@@ -16,7 +24,11 @@ function index() {
     <div className={styles.page}>
         <CommonHeader />
     <main className={styles.page__contents}>
-        <Card />
+        {data.map((item: CardDTO) => {
+            return (
+                <Card prop={item} key={item.id}/>
+            )
+        })}
     </main>
     </div>
     )

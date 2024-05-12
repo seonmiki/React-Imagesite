@@ -11,6 +11,7 @@ function CommonSearchBar() {
 	const onChange = (event) => {
 		console.log(event.target.value);
 		setText(event.target.value);
+		setPage(1);
 	}
 	const onSearch = () => {
 		if (text === "") {
