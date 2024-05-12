@@ -53,7 +53,17 @@ function DetailDialog({ data, handleDialog }: Props) {
         }
         else if (!getLocalStorage)
             return ;
-    })
+        
+        // ESC 키를 눌렀을 때, 다이얼로그 창 닫기
+        const escKeyDownCloseDialog = (event: any) => {
+            if (event.key === "Escape") {
+                closeDialog();
+            }
+        }
+        // 위에 만들어놓은 함수를 키다운 했을 때, 이벤트로 등록 및 해지
+        window.addEventListener("keydown", escKeyDownCloseDialog);
+        return () => window.removeEventListener("keydown", escKeyDownCloseDialog);
+    }, [])
 
     return (
     <div className={styles.container}>
